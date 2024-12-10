@@ -43,11 +43,6 @@ jobs:
 
     - run : npm ci
 
-    - name: Save node_modules as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: node_modules
-        path: node_modules
 
   test:
     needs: build
@@ -56,10 +51,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Restore node_modules
-      uses: actions/download-artifact@v3
-      with:
-        name: node_modules
 
     - name: Run Unit Tests
       run: npm test
@@ -71,11 +62,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Restore node_modules
-      uses: actions/download-artifact@v3
-      with:
-        name: node_modules
-
     - name: Run NestJS Tests
       run: npm run test:nestjs
 
@@ -85,11 +71,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Restore node_modules
-      uses: actions/download-artifact@v3
-      with:
-        name: node_modules
 
     - name: Run Mocha Tests
       run: npm run test:mocha
