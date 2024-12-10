@@ -73,7 +73,7 @@ jobs:
   test-nestjs:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push' && github.event.pull_request.changed_files.* == ('example-application/**/*.ts')
+    if: github.event_name == 'push' || github.event.pull_request.changed_files.* == ('example-application/**/*.ts')
     steps:
     - uses: actions/checkout@v2
     - name: Read .nvmrc
@@ -100,7 +100,7 @@ jobs:
   test-mocha:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push' && github.event.pull_request.changed_files == 'mocha/**/*.ts'
+    if: github.event_name == 'push' || github.event.pull_request.changed_files == 'mocha/**/*.ts'
     steps:
     - uses: actions/checkout@v2
     - name: Read .nvmrc
