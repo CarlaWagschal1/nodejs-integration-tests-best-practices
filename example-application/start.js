@@ -13,3 +13,5 @@ start()
   .catch((error) => {
     console.log('App occured during startup', error);
   });
+
+  // juste un test

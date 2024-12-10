@@ -72,7 +72,7 @@ jobs:
   test-nestjs:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push' && github.event.push.changed_files == 'src/**/*.ts'
+    if: github.event_name == 'push' && github.event.push.changed_files == 'example-application/**/*'
     steps:
     - uses: actions/checkout@v2
     - name: Read .nvmrc
