@@ -42,12 +42,23 @@ jobs:
         sudo apt-get install -y docker-compose
 
 
-    - run: npm ci
+    - name: Save node_modules as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: node_modules
+        path: node_modules
+
   test:
     needs: build
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v2
+
+    - name: Restore node_modules
+      uses: actions/download-artifact@v3
+      with:
+        name: node_modules
 
     - name: Run Unit Tests
       run: npm test
@@ -55,8 +66,14 @@ jobs:
   test_nestjs:
     needs: build
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v2
+
+    - name: Restore node_modules
+      uses: actions/download-artifact@v3
+      with:
+        name: node_modules
 
     - name: Run NestJS Tests
       run: npm run test:nestjs
@@ -64,8 +81,14 @@ jobs:
   test_mocha:
     needs: build
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v2
+
+    - name: Restore node_modules
+      uses: actions/download-artifact@v3
+      with:
+        name: node_modules
 
     - name: Run Mocha Tests
       run: npm run test:mocha
