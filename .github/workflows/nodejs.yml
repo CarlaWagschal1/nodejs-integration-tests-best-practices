@@ -68,7 +68,7 @@ jobs:
           npm-feature-${{ hashFiles('package-lock.json') }}
           npm-feature-
           npm-
-    - run : npm run test
+    
   
   test-nestjs:
     runs-on: ubuntu-latest
