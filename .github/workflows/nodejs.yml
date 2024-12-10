@@ -11,6 +11,24 @@ on:
     branches: [ master ]
 
 jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      example_application_changed: ${{ steps.filter.outputs.example_application }}
+      mocha_changed: ${{ steps.filter.outputs.mocha }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Filter paths
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters:
+            example_application:
+              - 'example-application/**/*'
+            mocha:
+              - 'mocha/**/*.ts'
+
   build:
     runs-on: ubuntu-latest
 
@@ -72,7 +90,7 @@ jobs:
   test-nestjs:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push' && github.event.push.changed_files == 'example-application/**/*'
+    if: github.event_name == 'push' && needs.detect-changes.outputs.example_application_changed == 'true'
     steps:
     - uses: actions/checkout@v2
     - name: Read .nvmrc
@@ -97,7 +115,7 @@ jobs:
   test-mocha:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push' && github.event.push.changed_files == 'mocha/**/*.ts'
+    if: github.event_name == 'push' && needs.detect-changes.outputs.mocha_changed == 'true'
     steps:
     - uses: actions/checkout@v2
     - name: Read .nvmrc
